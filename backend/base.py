@@ -1,15 +1,29 @@
+import os
 from pymongo import MongoClient
 from flask import Flask, render_template, request
 from flask_cors import CORS
 import json
 from bson import ObjectId
+from dotenv import load_dotenv
 
 app = Flask(__name__) 
 CORS(app)          
 
-# client = MongoClient("localhost", 27017)
-client = MongoClient("mongodb+srv://user1:1234@cluster0.xgy0q.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+load_dotenv(os.path.join(os.path.dirname(__file__),'config.env'))
+url=os.getenv("MONGODB")
+client = MongoClient(url)
 db = client.todo
+
+
+@app.route('/add')
+def add():
+    post={"_id":3,"name":"test2"}
+    db.todolist.insert_one(post)
+    results=db.todolist.find()
+    for result in results:
+        print(result)
+    return {"data":"add list","severity":"success"}
+
 
 @app.route('/hello')
 def hello_world():
@@ -31,6 +45,7 @@ def process_todo():
                 doc['id'] = str(doc['_id'])
                 del doc['_id']
                 data.append(doc)
+            print(data  )
             response = {"message":"Todolist restored",
                     "severity":"success","data":{"tododata":data}}
             return response
