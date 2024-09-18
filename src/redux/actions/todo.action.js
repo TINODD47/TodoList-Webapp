@@ -1,3 +1,4 @@
+
 import axios from "axios"
 
 export const SET_TODOLIST = 'SET_TODOLIST';
@@ -19,10 +20,11 @@ export const setResponseAction = (ms) => ({
 });
 
 let errorResponse = { message: 'Server Error', severity: 'error' }
+const API_URL = "https://todolist-32p0.onrender.com/todo"
 
 export const getTasks = () => async (dispatch) => {
     try {
-        const response = await axios.get("http://localhost:5001/todo");
+        const response = await axios.get(API_URL);
         const taskData = response.data.data.tododata
         const ms = response.data
         dispatch(setTodoList(taskData))
@@ -36,7 +38,7 @@ export const getTasks = () => async (dispatch) => {
 
 export const createTasks = (args) => async (dispatch) => {
     try {
-        const response = await axios.post("http://localhost:5001/todo", args);
+        const response = await axios.post(API_URL, args);
         const ms = response.data
         console.log(ms);
         dispatch(setResponseAction(ms));
@@ -50,7 +52,7 @@ export const createTasks = (args) => async (dispatch) => {
 
 export const updateTasks = (args) => async (dispatch) => {
     try {
-        const response = await axios.put("http://localhost:5001/todo", args);
+        const response = await axios.put(API_URL, args);
         // console.log(JSON.stringify(response))
         const ms = response.data
         console.log(ms);
@@ -65,7 +67,7 @@ export const updateTasks = (args) => async (dispatch) => {
 
 export const deleteTasks = (id) => async (dispatch) => {
     try {
-        const response = await axios.delete("http://localhost:5001/todo", {
+        const response = await axios.delete(API_URL, {
             data: {
                 "id": id
             }

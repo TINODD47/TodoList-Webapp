@@ -260,7 +260,14 @@ const TodoList = (props) => {
                                                     >
                                                         <ListItemButton role={undefined} dense>
                                                             <ListItemIcon>
-                                                                <Checkbox sx={{ color: 'white' }}
+                                                                <Checkbox
+                                                                    // sx={{ color: 'white', accentColor: 'red' }}
+                                                                    sx={{
+                                                                        color: 'white',
+                                                                        '&.Mui-checked': {
+                                                                            color: 'green', // Change the color when checked
+                                                                        },
+                                                                    }}
                                                                     onClick={() => {
                                                                         handleCheckBox(todo)
                                                                     }}
